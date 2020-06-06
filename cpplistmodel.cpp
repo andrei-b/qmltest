@@ -18,6 +18,13 @@ QVariant CPPListModel::data(const QModelIndex &index, int role) const
           return element->getItemName();
       else if (role == ExpandedRole)
           return element->getExpanded();
+      else if (role == ExpandedRole)
+      {
+          QObjectList l;
+          for (auto * item : m_elements)
+              l.append(item);
+          return QVariant::fromValue(l);
+      }
       return QVariant();
 }
 
@@ -26,6 +33,7 @@ QHash<int, QByteArray> CPPListModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[NameRole] = "itemName";
     roles[ExpandedRole] = "expanded";
+    roles[SubItemsRole] = "subItems";
     return roles;
 }
 
@@ -46,6 +54,11 @@ CPPListElement *CPPListModel::addSubItem(const QString &itemName)
     result->setItemName(itemName);
     m_elements.append(result);
     return result;
+}
+
+CPPListModel  *CPPListModel::subItem(int id)
+{
+    return m_elements[id]->getSubItems();
 }
 
 /*CPPListElement *CPPListModel::get(const QModelIndex &index)

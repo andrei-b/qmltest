@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
     e2.setItemName("EE2");
     auto * e3 = e1.getSubItems()->addSubItem("EE3");
     auto * e4 = e1.getSubItems()->addSubItem("EE4");
+    e4->getSubItems()->addSubItem("DD");
+    e4->getSubItems()->addSubItem("DCD")->getSubItems()->addSubItem("Cccdc");
     auto * e5 = e2.getSubItems()->addSubItem("E5");
     QObjectList treeModel;
     treeModel << &e1 << &e2;

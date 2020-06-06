@@ -12,7 +12,8 @@ class CPPListModel : public QAbstractListModel
 public:
     enum ItemRoles {
          NameRole = Qt::UserRole + 1,
-         ExpandedRole
+         ExpandedRole,
+         SubItemsRole
      };
     CPPListModel(QObject * parent = nullptr);
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -20,6 +21,7 @@ public:
     QHash<int,QByteArray> roleNames() const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     CPPListElement * addSubItem(const QString & itemName);
+    Q_INVOKABLE CPPListModel *subItem(int id);
     //CPPListElement * get(const QModelIndex & index);
     //void setProperty(const QModelIndex & index, const QString & name, const QVariant &value);
 private:

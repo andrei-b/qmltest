@@ -108,14 +108,14 @@ Window {
                     border.width: 1
                     color: "white"
                     x: 20
-                    height: 50
+                    height: 40
                     width: 200
                     property bool expanded : true
                     Text {
                         id : ttext
                         anchors.verticalCenter: parent.verticalCenter
                         x: 15
-                        font.pixelSize: 24
+                        font.pixelSize: 18
                         text: itemName
                     }
 
@@ -160,21 +160,28 @@ Window {
 
         Component {
             id: subItemColumnDelegate
+
             Column {
                 x : 40
                 property alias model : subItemRepeater.model
                 width: 200
+                property var items: model
+
                 Repeater {
                     id: subItemRepeater
 
                      delegate: Column {
                         width:200
+
                         Rectangle {
+                            id : subNode
                             height: 40
                             width: 200
                             color: "#ccccff"
                             border.color: "blue"
                             border.width: 1
+                            property bool expanded : true
+
                             Text {
                             anchors.verticalCenter: parent.verticalCenter
                             x: 30
@@ -182,7 +189,7 @@ Window {
                             text: itemName
                         }
                             Rectangle {
-                                visible: !(subItems==null)
+                                visible: items.subItem(index).rowCount() != 0
                                 //color: "red"
                                 width: 20
                                 height: 30
@@ -194,21 +201,21 @@ Window {
                                 color : "blue"
                                 font.pixelSize: 18
                                 font.bold: true
-                                text: expanded ? "-" : "+"
+                                text: subNode.expanded ? "-" : "+"
                             }
                                 MouseArea {
                                     anchors.fill: parent
 
                                     // Toggle the 'collapsed' property
-                                    onClicked: item.model.setProperty(index, "expanded", !expanded)
+                                    onClicked: subNode.expanded = !subNode.expanded
                                 }
                             }
                         }
 
                         Loader {
-                            visible: expanded
-                            property variant subItemModel : subItems
-                            sourceComponent: subItems == null || !expanded ? null : subItemColumnDelegate
+                            visible: subNode.expanded
+               property variant subItemModel : items.subItem(index)
+                            sourceComponent: !subNode.expanded ? null : subItemColumnDelegate
                             onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                         }
 
