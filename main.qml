@@ -5,7 +5,7 @@ Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("QML Test")
     Item {
         width: 200
         height: 300
@@ -104,9 +104,10 @@ Window {
 
                 Rectangle {
                     id: treeNode
-                    border.color: "black"
-                    border.width: 5
+                    border.color: "blue"
+                    border.width: 1
                     color: "white"
+                    x: 20
                     height: 50
                     width: 200
 
@@ -118,13 +119,20 @@ Window {
                     }
 
                     Rectangle {
-                        color: "red"
-                        width: 30
+                        visible: !(subItems==null)
+                        //color: "red"
+                        width: 20
                         height: 30
-                        anchors.right: parent.right
-                        anchors.rightMargin: 15
+                        anchors.left: parent.left
+                        anchors.leftMargin: -20
                         anchors.verticalCenter: parent.verticalCenter
-
+                        Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        color : "blue"
+                        font.pixelSize: 18
+                        font.bold: true
+                        text: !collapsed ? "-" : "+"
+                    }
                         MouseArea {
                             anchors.fill: parent
 
@@ -136,7 +144,7 @@ Window {
 
                 Loader {
                     id: childItemLoader
-
+                    x : 20
                     // This is a workaround for a bug/feature in the Loader element. If sourceComponent is set to null
                     // the Loader element retains the same height it had when sourceComponent was set. Setting visible
                     // to false makes the parent Column treat it as if it's height was 0.
@@ -152,7 +160,7 @@ Window {
         Component {
             id: subItemColumnDelegate
             Column {
-                x:20
+                x : 40
                 property alias model : subItemRepeater.model
                 width: 200
                 Repeater {
