@@ -1,4 +1,5 @@
 import CPPListElement 1.0
+import CPPListModel 1.0
 import QtQuick 2.12
 import QtQuick.Window 2.12
 
@@ -16,10 +17,6 @@ Window {
             model: treeModel//nestedModel
             delegate: treeNodeDelegate
         }
-
-        CPPListElement {
-                id: backend
-            }
 
         ListModel {
             id: nestedModel
@@ -113,8 +110,9 @@ Window {
                     x: 20
                     height: 50
                     width: 200
-
+                    property bool expanded : true
                     Text {
+                        id : ttext
                         anchors.verticalCenter: parent.verticalCenter
                         x: 15
                         font.pixelSize: 24
@@ -122,7 +120,7 @@ Window {
                     }
 
                     Rectangle {
-                        visible: subItems != null
+                        visible: subItems.rowCount() != 0
                         //color: "red"
                         width: 20
                         height: 30
@@ -134,13 +132,13 @@ Window {
                         color : "blue"
                         font.pixelSize: 18
                         font.bold: true
-                        text: !expanded ? "-" : "+"
+                        text: expanded ? "-" : "+"
                     }
                         MouseArea {
                             anchors.fill: parent
 
                             // Toggle the 'collapsed' property
-                            onClicked: nestedModel.setProperty(index, "expanded", !expanded)
+                            onClicked: expanded = !expanded //nestedModel.setProperty(index, "expanded", !expanded)
                         }
                     }
                 }
@@ -151,9 +149,9 @@ Window {
                     // This is a workaround for a bug/feature in the Loader element. If sourceComponent is set to null
                     // the Loader element retains the same height it had when sourceComponent was set. Setting visible
                     // to false makes the parent Column treat it as if it's height was 0.
-                    visible: !expanded
+                    visible: expanded
                     property variant subItemModel : subItems
-                    sourceComponent: expanded ? null : subItemColumnDelegate
+                    sourceComponent: !expanded ? null : subItemColumnDelegate
                     onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                 }
             }

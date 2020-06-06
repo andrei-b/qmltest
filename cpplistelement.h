@@ -7,29 +7,31 @@
 #include <qqml.h>
 #include <QQmlTypeInfo>
 
+class CPPListModel;
 class CPPListElement : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString itemName READ getItemName WRITE setItemName)
-    Q_PROPERTY(bool expanded READ getExpanded WRITE setExpanded)
-    Q_PROPERTY(QObjectList * subItems READ getSubItems WRITE setSubItems)
+    Q_PROPERTY(QString itemName READ getItemName WRITE setItemName NOTIFY itemNameChanged)
+    Q_PROPERTY(bool expanded READ getExpanded WRITE setExpanded NOTIFY expandedChanged)
+    Q_PROPERTY(CPPListModel * subItems READ getSubItems CONSTANT)
     //QML_ELEMENT - fuck!
 
 public:
     explicit CPPListElement(QObject *parent = nullptr);
-    QString getItemName();
+    QString getItemName() const;
     void setItemName(const QString & name);
-    bool getExpanded();
+    bool getExpanded() const;
     void setExpanded(bool b);
-    QObjectList * getSubItems();
-    void setSubItems(QObjectList * l);
+    CPPListModel * getSubItems();
 signals:
-
+    void itemNameChanged();
+    void expandedChanged();
+    void subItemsChanged();
 public slots:
     private:
     QString m_itemName;
     bool m_expanded;
-    QObjectList * m_subItems;
+    CPPListModel * m_subItems;
 };
 
 #endif // CPPLISTELEMENT_H

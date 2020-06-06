@@ -1,11 +1,13 @@
 #include "cpplistelement.h"
+#include "cpplistmodel.h"
 
-CPPListElement::CPPListElement(QObject *parent) : QObject(parent), m_expanded(false), m_subItems(nullptr)
+CPPListElement::CPPListElement(QObject *parent) : QObject(parent), m_expanded(true), m_subItems(new CPPListModel(this))
 {
 
 }
 
-QString CPPListElement::getItemName()
+
+QString CPPListElement::getItemName() const
 {
     return m_itemName;
 }
@@ -13,9 +15,10 @@ QString CPPListElement::getItemName()
 void CPPListElement::setItemName(const QString &name)
 {
     m_itemName = name;
+    emit itemNameChanged();
 }
 
-bool CPPListElement::getExpanded()
+bool CPPListElement::getExpanded() const
 {
     return m_expanded;
 }
@@ -23,14 +26,10 @@ bool CPPListElement::getExpanded()
 void CPPListElement::setExpanded(bool b)
 {
     m_expanded = b;
+    emit expandedChanged();
 }
 
-QObjectList *CPPListElement::getSubItems()
+CPPListModel * CPPListElement::getSubItems()
 {
     return m_subItems;
-}
-
-void CPPListElement::setSubItems(QObjectList *l)
-{
-    m_subItems = l;
 }
