@@ -13,7 +13,7 @@ Window {
 
         ListView {
             anchors.fill: parent
-            model: nestedModel
+            model: treeModel//nestedModel
             delegate: treeNodeDelegate
         }
 
@@ -24,7 +24,7 @@ Window {
         ListModel {
             id: nestedModel
             ListElement {
-                categoryName: "Veggies"
+                itemName: "Veggies"
                 expanded: true
 
                 // A ListElement can't contain child elements, but it can contain
@@ -39,7 +39,7 @@ Window {
             }
 
             ListElement {
-                categoryName: "Fruits"
+                itemName: "Fruits"
                 expanded: true
                 subItems: [
                     ListElement { itemName: "Orange" },
@@ -50,7 +50,7 @@ Window {
             }
 
             ListElement {
-                categoryName: "Cars"
+                itemName: "Cars"
                 expanded: false
                 subItems: [
                     ListElement { itemName: "Nissan"
@@ -118,11 +118,11 @@ Window {
                         anchors.verticalCenter: parent.verticalCenter
                         x: 15
                         font.pixelSize: 24
-                        text: categoryName
+                        text: itemName
                     }
 
                     Rectangle {
-                        visible: !(subItems==null)
+                        visible: subItems != null
                         //color: "red"
                         width: 20
                         height: 30
