@@ -1,3 +1,4 @@
+import CPPListElement 1.0
 import QtQuick 2.12
 import QtQuick.Window 2.12
 
@@ -16,11 +17,15 @@ Window {
             delegate: treeNodeDelegate
         }
 
+        CPPListElement {
+                id: backend
+            }
+
         ListModel {
             id: nestedModel
             ListElement {
                 categoryName: "Veggies"
-                collapsed: true
+                expanded: true
 
                 // A ListElement can't contain child elements, but it can contain
                 // a list of elements. A list of ListElements can be used as a model
@@ -31,24 +36,22 @@ Window {
                     ListElement { itemName: "Onion" },
                     ListElement { itemName: "Brains" }
                 ]
-                subsubitems: [ListElement { itemName: "1" }]
             }
 
             ListElement {
                 categoryName: "Fruits"
-                collapsed: true
+                expanded: true
                 subItems: [
                     ListElement { itemName: "Orange" },
                     ListElement { itemName: "Apple" },
                     ListElement { itemName: "Pear" },
                     ListElement { itemName: "Lemon" }
                 ]
-                subsubitems: [ListElement { itemName: "1" }]
             }
 
             ListElement {
                 categoryName: "Cars"
-                collapsed: true
+                expanded: false
                 subItems: [
                     ListElement { itemName: "Nissan"
                         expanded: true
@@ -131,13 +134,13 @@ Window {
                         color : "blue"
                         font.pixelSize: 18
                         font.bold: true
-                        text: !collapsed ? "-" : "+"
+                        text: !expanded ? "-" : "+"
                     }
                         MouseArea {
                             anchors.fill: parent
 
                             // Toggle the 'collapsed' property
-                            onClicked: nestedModel.setProperty(index, "collapsed", !collapsed)
+                            onClicked: nestedModel.setProperty(index, "expanded", !expanded)
                         }
                     }
                 }
@@ -148,9 +151,9 @@ Window {
                     // This is a workaround for a bug/feature in the Loader element. If sourceComponent is set to null
                     // the Loader element retains the same height it had when sourceComponent was set. Setting visible
                     // to false makes the parent Column treat it as if it's height was 0.
-                    visible: !collapsed
+                    visible: !expanded
                     property variant subItemModel : subItems
-                    sourceComponent: collapsed ? null : subItemColumnDelegate
+                    sourceComponent: expanded ? null : subItemColumnDelegate
                     onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                 }
             }
