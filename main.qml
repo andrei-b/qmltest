@@ -51,18 +51,47 @@ Window {
                 collapsed: true
                 subItems: [
                     ListElement { itemName: "Nissan"
+                        expanded: true
                         subItems: [ListElement {
+                                expanded: true
                                 itemName: "4"
-                                subItems: [ListElement { itemName: "ZZ" }]
+                                subItems: [ListElement {
+                                        expanded: true
+                                        itemName: "ZZ"
+                                    },
+                                ListElement {
+                                        expanded: true
+                                        itemName: "YY"
+                                    }]
                             }]
                     },
                     ListElement { itemName: "Toyota"
-                    subItems: [ListElement { itemName: "1" }]
+                        expanded: true
+                    subItems: [ListElement {
+                            expanded: true
+                            itemName: "1"
+                        }]
                     },
-                    ListElement { itemName: "Chevy"
-                    subItems: [ListElement { itemName: "2" }]},
+                    ListElement {
+                        itemName: "Chevy"
+                        expanded: true
+                    subItems: [ListElement {
+                            expanded: true
+                            itemName: "2" }]},
                     ListElement { itemName: "Audi"
-                    subItems: [ListElement { itemName: "3" }]}
+                        expanded: true
+                    subItems: [ListElement {
+                            expanded: true
+                            itemName: "3"
+                            subItems: [ListElement {
+                                    expanded: true
+                                    itemName: "Z1"
+                                },
+                            ListElement {
+                                    expanded: true
+                                    itemName: "Y1"
+                                }]
+                        }]}
                 ]
 
             }
@@ -146,12 +175,27 @@ width:200
                             font.pixelSize: 18
                             text: itemName
                         }
+                            Rectangle {
+                                color: "red"
+                                width: 30
+                                height: 30
+                                anchors.right: parent.right
+                                anchors.rightMargin: 15
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                MouseArea {
+                                    anchors.fill: parent
+
+                                    // Toggle the 'collapsed' property
+                                    onClicked: item.model.setProperty(index, "expanded", !expanded)
+                                }
+                            }
                         }
 
                         Loader {
-                            visible: !collapsed
+                            visible: expanded
                             property variant subItemModel : subItems
-                            sourceComponent: subItems == null ? null : subItemColumnDelegate
+                            sourceComponent: subItems == null || !expanded ? null : subItemColumnDelegate
                             onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                         }
 
