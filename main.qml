@@ -180,7 +180,7 @@ Window {
                             color: "#ccccff"
                             border.color: "blue"
                             border.width: 1
-                            property bool expanded : true
+                            property bool expanded : false
 
                             Text {
                             anchors.verticalCenter: parent.verticalCenter
