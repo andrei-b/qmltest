@@ -157,11 +157,8 @@ Window {
                 width: 200
                 Repeater {
                     id: subItemRepeater
-                    /*delegate: Rectangle {
-                        id : upDelegate
-                        height: 120
-                        width: 200*/
-                     Column {
+
+                     delegate: Column {
 width:200
                         Rectangle {
                             height: 40
@@ -176,11 +173,12 @@ width:200
                             text: itemName
                         }
                             Rectangle {
+                                visible: !(subItems==null)
                                 color: "red"
-                                width: 30
+                                width: 20
                                 height: 30
-                                anchors.right: parent.right
-                                anchors.rightMargin: 15
+                                anchors.right: parent.left
+                                anchors.leftMargin: 20
                                 anchors.verticalCenter: parent.verticalCenter
 
                                 MouseArea {
@@ -201,7 +199,6 @@ width:200
 
                         }
 
-                    //}
                 }
             }
         }
