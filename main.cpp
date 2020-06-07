@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     auto * e5 = e2.getSubItems()->addSubItem("E5");
     QObjectList treeModel;
     treeModel << &e1 << &e2;
-    engine.rootContext()->setContextProperty("treeModel", QVariant::fromValue(treeModel));
+    engine.rootContext()->setContextProperty("treeModel", QVariant::fromValue(e4));
     engine.load(url);
 
     return app.exec();
