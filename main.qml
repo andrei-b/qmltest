@@ -1,12 +1,12 @@
 import CPPListElement 1.0
 import CPPListModel 1.0
-import QtQuick 2.12
-import QtQuick.Window 2.12
+import QtQuick 2.0
+import QtQuick.Window 2.0
 
 Window {
     visible: true
-    width: 640
-    height: 480
+    width: 800
+    height: 600
     title: qsTr("QML Test")
 
     Item {
@@ -14,8 +14,9 @@ Window {
         height: 300
 
         ListView {
+            id : view
             anchors.fill: parent
-            model: treeModel//nestedModel
+            model: treeModel
             delegate: treeNodeDelegate
         }
 
@@ -23,15 +24,20 @@ Window {
             id: treeNodeDelegate
             Column {
                 width: 200
-                property var items: model
+                property CPPListModel items: view.model
                 Rectangle {
                     id: treeNode
-                    border.color: "blue"
-                    border.width: 1
-                    color: "white"
+                    //border.color: "white"
+                    border.width: 0
+                    //color: "white"
                     x: 20
                     height: 40
                     width: 200
+                    Path {
+
+                        startX: 0; startY: 0
+                        PathLine { x: 200; y: 0 }
+                    }
                     property bool expanded : true
                     Text {
                         id : ttext
@@ -50,7 +56,7 @@ Window {
                     id: childItemLoader
                     x : 20
                     visible: treeNode.expanded
-                    property variant subItemModel : subItems
+                    property variant subItemModel : items.subItem(index)
                     sourceComponent: !expanded ? null : subItemColumnDelegate
                     onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                 }
@@ -72,9 +78,9 @@ Window {
                             id : subNode
                             height: 40
                             width: 200
-                            color: "#ccccff"
-                            border.color: "blue"
-                            border.width: 1
+                            //color: "#ccccff"
+                            //border.color: "blue"
+                            border.width: 0
                             property bool expanded : false
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
