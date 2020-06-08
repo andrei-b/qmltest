@@ -61,3 +61,10 @@ CPPListModel  *CPPListModel::subItems(int id)
     return m_elements[id]->getSubItems();
 }
 
+CPPListElement *CPPListModel::item(int id)
+{
+    if (id < 0 || id >= rowCount())
+        return nullptr;
+    return m_elements[id];
+}
+

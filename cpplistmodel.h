@@ -24,6 +24,7 @@ public:
     CPPListElement * addSubItem(const QString & itemName);
     // subItems(int id) врзвращает дочерние узлы узла id (0..rowCount()-1) для построения дерева (не смог сделать этот через data())
     Q_INVOKABLE CPPListModel *subItems(int id);
+    Q_INVOKABLE CPPListElement *item(int id);
 private:
     QList<CPPListElement*> m_elements;
 };

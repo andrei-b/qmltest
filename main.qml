@@ -2,11 +2,13 @@ import CPPListElement 1.0
 import CPPListModel 1.0
 import QtQuick 2.0
 import QtQuick.Window 2.0
+import QtQuick.Layouts 1.0
 
 Window {
     visible: true
     title: qsTr("QML Test")
-
+RowLayout {
+    spacing: 10;
     Item {
         width: 200
         height: view.model.rowCount()*150
@@ -94,6 +96,29 @@ Window {
                     }
                 }
             }
+        }
+
+}
+
+    ListModel {
+        id: listModel
+        function flatten(cppListModel) {
+            for (var i = 0;  i < cppListModel.rowCount(); i++) {
+                listModel.append(cppListModel.item(i))
+                flatten(cppListModel.subItems(i))
+            }
+            return listModel
+        }
+    }
+
+    Column{
+        Layout.alignment: Qt.AlignTop
+        Repeater {
+               model: listModel.flatten(treeModel)
+               Text {
+                   text: itemName
+               }
+           }
         }
     }
 }
