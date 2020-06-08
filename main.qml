@@ -47,7 +47,7 @@ Window {
                         text: itemName
                     }
                     ExpandButton {
-                        visible: subItems.rowCount() !== 0
+                        visible: subItems == null ? false : subItems.rowCount() !== 0
                         property alias expanded : treeNode.expanded
                     }
                 }
