@@ -22,8 +22,6 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     CPPListElement * addSubItem(const QString & itemName);
     Q_INVOKABLE CPPListModel *subItem(int id);
-    //CPPListElement * get(const QModelIndex & index);
-    //void setProperty(const QModelIndex & index, const QString & name, const QVariant &value);
 private:
     QList<CPPListElement*> m_elements;
 };

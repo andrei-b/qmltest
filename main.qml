@@ -5,14 +5,11 @@ import QtQuick.Window 2.0
 
 Window {
     visible: true
-    width: 800
-    height: 600
     title: qsTr("QML Test")
 
     Item {
         width: 200
-        height: 300
-
+        height: view.model.rowCount()*150
         ListView {
             id : view
             anchors.fill: parent
@@ -33,19 +30,15 @@ Window {
                     x: 20
                     height: 40
                     width: 200
-                    Path {
-
-                        startX: 0; startY: 0
-                        PathLine { x: 200; y: 0 }
-                    }
                     property bool expanded : true
                     Text {
                         id : ttext
                         anchors.verticalCenter: parent.verticalCenter
-                        x: 15
+                        x: 30
                         font.pixelSize: 18
                         text: itemName
                     }
+                    Bullet { }
                     ExpandButton {
                         visible: subItems == null ? false : subItems.rowCount() !== 0
                         property alias expanded : treeNode.expanded
@@ -56,7 +49,7 @@ Window {
                     id: childItemLoader
                     x : 20
                     visible: treeNode.expanded
-                    property variant subItemModel : items.subItem(index)
+                    property variant subItemModel : items == null ? null : items.subItem(index)
                     sourceComponent: !expanded ? null : subItemColumnDelegate
                     onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                 }
@@ -78,8 +71,6 @@ Window {
                             id : subNode
                             height: 40
                             width: 200
-                            //color: "#ccccff"
-                            //border.color: "blue"
                             border.width: 0
                             property bool expanded : false
                             Text {
@@ -88,6 +79,7 @@ Window {
                                 font.pixelSize: 18
                                 text: itemName
                             }
+                            Bullet { }
                             ExpandButton {
                                 visible: items == null ? false : items.subItem(index).rowCount() !== 0
                                 property alias expanded : subNode.expanded

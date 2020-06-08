@@ -4,6 +4,7 @@
 #include <QQmlComponent>
 #include "cpplistelement.h"
 #include "cpplistmodel.h"
+#include <memory>
 
 int main(int argc, char *argv[])
 {
@@ -22,13 +23,15 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    auto * rootModel = new CPPListModel(); // содержит список корневых узлов
+    std::unique_ptr<CPPListModel> rootModel(new CPPListModel()); // список корневых узлов
     auto * root1 = rootModel->addSubItem("Root1");
     auto * a1 = root1->getSubItems()->addSubItem("A1");
-    a1->getSubItems()->addSubItem("DD");
-    a1->getSubItems()->addSubItem("DCD")->getSubItems()->addSubItem("Cccdc");
-    engine.rootContext()->setContextProperty("treeModel", rootModel);
+    a1->getSubItems()->addSubItem("B1");
+    a1->getSubItems()->addSubItem("C1")->getSubItems()->addSubItem("D1");
+    auto * root2 = rootModel->addSubItem("Root2");
+    root2->getSubItems()->addSubItem("B2")->getSubItems()->addSubItem("C2");
+    rootModel->addSubItem("Root3");
+    engine.rootContext()->setContextProperty("treeModel", rootModel.get());
     engine.load(url);
-
     return app.exec();
 }

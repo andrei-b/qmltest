@@ -61,16 +61,3 @@ CPPListModel  *CPPListModel::subItem(int id)
     return m_elements[id]->getSubItems();
 }
 
-/*CPPListElement *CPPListModel::get(const QModelIndex &index)
-{
-    if (index.row() < 0 || index.row() > m_elements.count())
-          return nullptr;
-    return m_elements[index.row()];
-}
-
-void CPPListModel::setProperty(const QModelIndex &index, const QString &name, const QVariant &value)
-{
-    if (index.row() < 0 || index.row() > m_elements.count())
-          return;
-    m_elements[index.row()]->setProperty(name.toLocal8Bit(), value);
-}*/
