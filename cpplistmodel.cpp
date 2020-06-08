@@ -56,7 +56,7 @@ CPPListElement *CPPListModel::addSubItem(const QString &itemName)
     return result;
 }
 
-CPPListModel  *CPPListModel::subItem(int id)
+CPPListModel  *CPPListModel::subItems(int id)
 {
     return m_elements[id]->getSubItems();
 }

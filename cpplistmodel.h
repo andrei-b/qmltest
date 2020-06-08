@@ -20,8 +20,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int,QByteArray> roleNames() const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    //  добавить узел
     CPPListElement * addSubItem(const QString & itemName);
-    Q_INVOKABLE CPPListModel *subItem(int id);
+    // subItems(int id) врзвращает дочерние узлы узла id (0..rowCount()-1) для построения дерева (не смог сделать этот через data())
+    Q_INVOKABLE CPPListModel *subItems(int id);
 private:
     QList<CPPListElement*> m_elements;
 };

@@ -49,7 +49,7 @@ Window {
                     id: childItemLoader
                     x : 20
                     visible: treeNode.expanded
-                    property variant subItemModel : items == null ? null : items.subItem(index)
+                    property variant subItemModel : items == null ? null : items.subItems(index)
                     sourceComponent: !expanded ? null : subItemColumnDelegate
                     onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                 }
@@ -81,13 +81,13 @@ Window {
                             }
                             Bullet { }
                             ExpandButton {
-                                visible: items == null ? false : items.subItem(index).rowCount() !== 0
+                                visible: items == null ? false : items.subItems(index).rowCount() !== 0
                                 property alias expanded : subNode.expanded
                             }
                         }
                         Loader {
                             visible: subNode.expanded
-                            property variant subItemModel : items == null ? null : items.subItem(index)
+                            property variant subItemModel : items == null ? null : items.subItems(index)
                             sourceComponent: !subNode.expanded ? null : subItemColumnDelegate
                             onStatusChanged: if (status == Loader.Ready) item.model = subItemModel
                         }

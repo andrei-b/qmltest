@@ -6,5 +6,5 @@ Rectangle {
     y:0
     width: 20
     height: 20
-    color: items == null ? "blue" : items.subItem(index).rowCount() !== 0 ? "red" : "blue"
+    color: items == null ? "blue" : items.subItems(index).rowCount() !== 0 ? "red" : "blue"
 }
